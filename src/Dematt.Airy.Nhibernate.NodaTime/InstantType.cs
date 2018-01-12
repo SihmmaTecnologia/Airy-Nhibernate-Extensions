@@ -11,14 +11,14 @@ namespace Dematt.Airy.Nhibernate.NodaTime
     {
         public SqlType[] SqlTypes
         {
-            get { return new[] { SqlTypeFactory.Int64 }; }
+            get { return new[] {SqlTypeFactory.Int64}; }
         }
 
         public Type ReturnedType
         {
             get { return typeof(Instant); }
         }
-        
+
         public new bool Equals(object x, object y)
         {
             return object.Equals(x, y);
@@ -36,7 +36,8 @@ namespace Dematt.Airy.Nhibernate.NodaTime
             {
                 return null;
             }
-            return new Instant((long)value);
+
+            return Instant.FromUnixTimeTicks((long) value);
         }
 
         public void NullSafeSet(IDbCommand cmd, object value, int index)
@@ -47,7 +48,7 @@ namespace Dematt.Airy.Nhibernate.NodaTime
             }
             else
             {
-                NHibernateUtil.Int64.NullSafeSet(cmd, ((Instant)value).Ticks, index);
+                NHibernateUtil.Int64.NullSafeSet(cmd, ((Instant) value).ToUnixTimeTicks(), index);
             }
         }
     }
